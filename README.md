@@ -42,4 +42,35 @@ http://localhost:8081/websocket-test.html
 
 Нажми "Connect to WebSocket" и наблюдай сообщения каждые 5 секунд.
 
+## Тестирование
+Запуск всех тестов:
+```bash
+mvn test
+```
+
+## Структура проекта
+```bash
+src/
+├── main/
+│   ├── java/com/example/websocket/
+│   │   ├── controller/     # WebSocket контроллер
+│   │   ├── config/        # WebSocket конфигурация  
+│   │   └── service/       # Сервис отправки сообщений
+│   └── resources/
+│       ├── application.properties
+│       └── static/        # HTML тестовая страница
+└── test/                  # Unit-тесты
+```
+
+## Технологии
+Spring Boot 3.5.6
+
+Spring WebSocket
+
+STOMP protocol
+
+SockJS
+
+Maven
+
 
