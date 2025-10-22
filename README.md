@@ -73,4 +73,39 @@ SockJS
 
 Maven
 
+## WebSocket Endpoints
+Подключение: /ws-drone
 
+Отправка сообщений: /app/connect
+
+Подписка на сообщения: /topic/drone-messages
+
+## Пример сообщений
+Сообщения отправляются каждые 5 секунд:
+```bash
+Drone status update #1 - Time: 2025-10-23T00:00:53.642 - All systems operational
+Drone status update #2 - Time: 2025-10-23T00:00:58.639 - All systems operational
+```
+
+## Разработка
+Добавление нового типа сообщений
+
+Измените метод sendScheduledMessage() в WebSocketMessageService
+
+Обновите HTML страницу для отображения новых сообщений
+
+Изменение интервала отправки
+
+В WebSocketMessageService измените:
+```bash
+@Scheduled(fixedRate = 10000) // 10 секунд
+```
+
+## Troubleshooting
+Проблема: Не приходят сообщения в браузере
+
+Решение: Проверьте консоль браузера (F12) на наличие ошибок CORS
+
+Проблема: Приложение не запускается
+
+Решение: Убедитесь что порт 8081 свободен, или измените в application.properties
