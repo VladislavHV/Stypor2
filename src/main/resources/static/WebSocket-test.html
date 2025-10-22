@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drone WebSocket Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            padding: 15px;
+            height: 300px;
+            overflow-y: scroll;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .connected { color: green; }
+        .disconnected { color: red; }
+        .message { margin: 5px 0; }
+    </style>
+</head>
+<body>
+<h1>Drone WebSocket Test</h1>
+
+<div>
+    <button onclick="connect()">Connect to WebSocket</button>
+    <button onclick="disconnect()">Disconnect</button>
+    <button onclick="clearMessages()">Clear Messages</button>
+</div>
+
+<div>
+    Status: <span id="status" class="disconnected">Disconnected</span>
+</div>
+
+<div id="messages"></div>
+
+<script>
+    let stompClient = null;
+    const messagesDiv = document.getElementById('messages');
+    const statusSpan = document.getElementById('status');
+
+    function connect() {
+        const socket = new SockJS('/ws-drone');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function(frame) {
+            setStatus('Connected', 'connected');
+            addMessage('Connected to WebSocket: ' + frame);
+
+            stompClient.subscribe('/topic/drone-messages', function(message) {
+                addMessage('Received: ' + message.body);
+            });
+
+            stompClient.send("/app/connect", {}, "Hello from drone client");
+
+        }, function(error) {
+            setStatus('Connection failed', 'disconnected');
+            addMessage('Connection error: ' + error);
+        });
+    }
+
+    function disconnect() {
+        if (stompClient !== null) {
+            stompClient.disconnect();
+            setStatus('Disconnected', 'disconnected');
+            addMessage('Disconnected from WebSocket');
+        }
+    }
+
+    function clearMessages() {
+        messagesDiv.innerHTML = '';
+    }
+
+    function setStatus(message, className) {
+        statusSpan.textContent = message;
+        statusSpan.className = className;
+    }
+
+    function addMessage(message) {
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message';
+        messageElement.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+</script>
+</body>
+</html>
