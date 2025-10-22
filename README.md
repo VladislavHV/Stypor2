@@ -23,3 +23,23 @@ Spring Boot приложение с WebSocket сервером для real-time 
 ```bash
 git clone <repository-url>
 cd websocket-drone-service
+```
+
+## Сборка и запуск приложения
+```bash
+mvn clean package
+java -jar target/websocket-drone-service-0.0.1-SNAPSHOT.jar
+```
+Maven
+```bash
+mvn spring-boot:run
+```
+
+## Тестирование WebSocket
+Открой в браузере:
+
+http://localhost:8081/websocket-test.html
+
+Нажми "Connect to WebSocket" и наблюдай сообщения каждые 5 секунд.
+
+
