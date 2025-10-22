@@ -1,6 +1,6 @@
-## **ПРОЕКТ 2: WebSocket Drone Service**
+# **ПРОЕКТ 2: WebSocket Drone Service**
 
-# WebSocket Drone Service
+## WebSocket Drone Service
 
 Spring Boot приложение с WebSocket сервером для real-time коммуникации с дронами.
 
