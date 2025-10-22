@@ -1,4 +1,3 @@
-
 ## **ПРОЕКТ 2: WebSocket Drone Service**
 
 ```markdown
